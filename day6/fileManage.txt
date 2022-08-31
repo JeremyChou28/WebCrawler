@@ -1,0 +1,70 @@
+python对文件操作的方法：
+规则：open(file_name[,access_mode][,buffering])
+　　file_name:文件路径+文件名称，加路径从路径开始访问，不加路径直接访问的是与你编辑的py文件在同一目录下的文件
+　　access_mode:打开文件的方式：默认为只读模式，r
+　　　　其他打开文件的方式：
+　　　　'r'：只读
+　　　　'w'：写，对原来已有内容清空后重写，若文件不存在就创建
+　　　　'a'：追加，不清空原来内容，直接在原来内容后面添加写
+　　　　'r+' == r+w ： 可读可写，主要为读，若文件不存在会出现保存
+　　　　'w+' == w+r ：可读可写，主要为写，文件若不存在就创建一个文件
+　　　　'a+' ==a+r ：可追加可写，文件若不存在就创建
+　　　　如果为二进制文件，则在后面加个b，例如：wb
+对文件操作时要注意编码格式，不然会出现乱码。默认格式为utf-8
+# 打开文件并读取文件
+f = open(r'file.text')
+print(f.read())
+f.close()
+# open 打开， read为读取文件内容, close为关闭文件
+# 如果直接打开文件的话必须要关闭文件，写的时候不关闭会写不进去内容的
+
+# 打开一个不存在的文件
+# f = open(r'/User/xxx/s.text')
+# 结果：FileNotFoundError: [Errno 2] No such file or directory: '/User/xxx/s.text'
+
+# 用with open的时候直接使用，就不需要关闭文件了
+with open(r'file.text') as fp:
+  print(fp.read())
+# fp是将文件缩写，以fp代替文件
+
+'''
+读取文本的三种方法：
+  read：读取文本的所有内容
+  readline：读取文章的一行
+  readlines() 自动将文件内容分析成一个行的列表读取
+'''
+
+# 写文件
+with open('learning.txt', 'w') as fp:
+  fp.write('Hello, world!')
+# 结果：自动新建一个learning.txt的文件，并且存入内容hello ，world！
+
+'''
+写入文本的两种方法：
+  write()：将内容写入文本中
+  writelines()：针对列表的操作
+'''
+
+# 举例说明readlines和writelines
+with open('text.txt','w') as fp:
+  fp.writelines(['123\n', '234\n', '345\n', '456\n',])
+# 结果：
+  '''
+  123
+  234
+  345
+  456
+  '''
+
+with open('text.txt','r') as fp:
+  print(fp.readlines())
+# 结果：['123\n', '234\n', '345\n', '456\n']
+
+# 文本后面追加内容用a模式，不然就直接覆盖了之前的内容
+with open('learning.txt', 'a') as fp:
+  fp.write('\nHello, world!')
+# 结果：
+'''
+Hello, world!
+Hello, world!
+'''
